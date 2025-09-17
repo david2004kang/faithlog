@@ -1,0 +1,65 @@
+[project]
+name = "faithlog"
+version = "0.1.0"
+description = "A Bible Reading + Mini-Game Web Application"
+authors = [
+    {name = "David Kang", email = "david2004kang@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.0,<6.0",
+    "psycopg[binary]>=3.2",
+    "channels[daphne]>=4.1",
+    "redis>=5.0",
+    "django-environ>=0.11",
+    "djangorestframework>=3.15",
+    "gunicorn>=21.0",
+    "whitenoise>=6.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "black>=23.0",
+    "isort>=5.12",
+    "flake8>=6.0",
+    "coverage>=7.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "--tb=short --strict-markers"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
